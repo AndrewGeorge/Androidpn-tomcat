@@ -19,6 +19,7 @@ package org.androidpn.server.xmpp.push;
 
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import org.androidpn.server.model.Notification;
 import org.androidpn.server.model.User;
@@ -93,6 +94,34 @@ public class NotificationManager {
 
 	}
 
+	public void sendNotificationByTag(String apiKey, String tag,
+			String title, String message, String uri ,boolean shouldSave){
+		Set<String> usernameSet=sessionManager.getUsernameByTag(tag);
+		if (usernameSet!=null&& !usernameSet.isEmpty()) {
+			for (String username:usernameSet) {
+				sendNotifcationToUser(apiKey, username, title, message, uri, shouldSave);
+			}
+		}
+		
+	}
+	/**
+	 * send Notification By alias
+	 * @param apiKey
+	 * @param alias
+	 * @param title
+	 * @param message
+	 * @param uri
+	 * @param shouldSave
+	 */
+	public void sendNotificationByAlias(String apiKey, String alias,
+			String title, String message, String uri ,boolean shouldSave){
+		String username=sessionManager.getUsernameByAlias(alias);
+		if (username!=null) {
+			sendNotifcationToUser(apiKey, username, title, message, uri, shouldSave);
+		}
+	}
+	
+	
 	/**
 	 * Sends a newly created notification message to the specific user.
 	 * 
@@ -145,6 +174,9 @@ public class NotificationManager {
 		notificationService.saveNotification(mNotification);
 	}
 
+	
+	
+	
 	/**
 	 * Creates a new notification IQ and returns it.
 	 */
