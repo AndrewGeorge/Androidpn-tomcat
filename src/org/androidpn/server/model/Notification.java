@@ -25,7 +25,16 @@ public class Notification {
 	private String uri;
 	@Column(name = "uuid",length = 64, nullable = false,unique=true)
 	private String uuid;
+	@Column(name = "image_url",length =256)
+	private String imageUrl;
 	
+	
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
 	public String getUuid() {
 		return uuid;
 	}
